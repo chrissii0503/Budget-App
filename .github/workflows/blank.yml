@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace BudgetCalculator
+{
+    public partial class Budget : Form
+    {
+
+        // variables are being declared
+        double income, tax, groceries, travel, cellphone, other, deductions, after;
+        
+        double pprice, pinterest, interest,total_amnt, months, deposit, principal;
+        double check1,incomes;
+        Int16 year;
+
+        double vprice, vinsurance, vinterest, vdeposit, vtotal, princip, inter, insure, gtotal;
+
+        public Budget()
+        {
+            InitializeComponent();
+
+        }
+        private void btnCalc_Click(object sender, EventArgs e)
+        {  
+            after = income - deductions;
+            txtAfter.Text = after.ToString();
+        }
+        //the btnAdd will calculate the general deductions from salary
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            income = Convert.ToDouble(txtIncome.Text);
+            tax = Convert.ToDouble(txtTax.Text);
+            groceries = Convert.ToDouble(txtGroceries.Text);
+            travel = Convert.ToDouble(txtTravel.Text);
+            cellphone = Convert.ToDouble(txtCellphone.Text);
+            other = Convert.ToDouble(txtOther.Text);
+            deductions = tax + groceries + travel + cellphone + other;
+
+            txtDeductions.Text = deductions.ToString();
+
+        }
+        //the btnLoad will allow to calculate HP on the property
+        private void btnLoan_Click(object sender, EventArgs e)
+        {
+      
+                pprice = Convert.ToDouble(txtPPrice.Text);
+                pinterest = Convert.ToDouble(txtPInterest.Text);
+                year = Convert.ToInt16(txtYear.Text);
+                deposit = Convert.ToDouble(txtPDeposit.Text);
+
+            principal = pprice - deposit;
+            interest = principal * year * pinterest/100;
+            total_amnt = principal + interest;
+            months = total_amnt/year;
+
+                txtRepay.Text = months.ToString();
+        }
+        //the btnCheck will check if user is qualified for home loan or not
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+
+            incomes = Convert.ToDouble(txtGross.Text);
+            check1 = incomes / 3.3333; // income divided by a third
+
+            if (rbtnBuy.Checked == true)
+            {
+                if(check1>incomes)
+                {
+                    MessageBox.Show("You Do Not Qualify!" ,"Warning");
+                }
+                else if(check1<incomes)
+                {
+                    MessageBox.Show("You Do Qualify!" ,"Congratulations");
+                }
+
+
+            }
+
+            else if(rbtnRent.Checked == true)
+            {
+                DialogResult d;
+                d = MessageBox.Show("You have chosen to rent property. Is this true?", "Information", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (d == DialogResult.Yes)
+                {
+                    //do nothing
+                }
+                else if (d == DialogResult.No)
+                {
+                    //do nothing
+                }
+            }
+        }
+
+        //calculate vehicle and insurance
+        private void btnVehicleCalculate_Click(object sender, EventArgs e)
+        {
+            vprice = Convert.ToDouble(txtVPrice.Text);
+            vinsurance = Convert.ToDouble(txtVInterest.Text);
+            vinterest = Convert.ToDouble(txtVInterest.Text);
+            vdeposit = Convert.ToDouble(txtVDeposit.Text);
+
+            princip = vprice - vdeposit;
+            inter = princip * 5 * vinterest / 100;
+            vtotal = princip + inter;
+            insure = vinsurance + vtotal;
+            gtotal = insure / 60;
+
+            txtVehicleTotal.Text = insure.ToString();
+            txtMonthly.Text = gtotal.ToString();
+
+        }
+    }
+}
